@@ -6,7 +6,8 @@ npm link
 
 ## Примеры запуска
 ```
-current
-add -d 10
-sub -m 5
+curdate current
+curdate current -d
+curdate add -d 10
+curdate sub -m 5
 ```

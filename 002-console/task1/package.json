@@ -2,11 +2,9 @@
   "name": "002-console",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "time.js",
   "bin": {
-    "sub": "./sub.js",
-    "add": "./add.js",
-    "current": "./current.js"
+    "curdate": "./date.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
