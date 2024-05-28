@@ -1,3 +1,9 @@
+## Установка
+```
+npm install
+npm link
+```
+
 ## Примеры запуска
 ```
 current
