@@ -1,9 +1,9 @@
 ## Установка
 ```
-npm link
+npm install
 ```
 
 ## Примеры запуска
 ```
-guess
+node index -l test_log.txt
 ```

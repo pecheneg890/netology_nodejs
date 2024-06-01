@@ -1,13 +1,13 @@
 {
-  "name": "002-console",
+  "name": "task1",
   "version": "1.0.0",
   "description": "",
-  "main": "time.js",
-  "bin": {
-    "curdate": "./date.js"
-  },
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "guess_log": "./index.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,28 +1,39 @@
 #!/usr/bin/env node
-const readline = require('node:readline');
-const { stdin: input, stdout: output } = require('node:process');
+const fs = require('fs');
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 
-const rl = readline.createInterface({ input, output });
-const min = 0;
-const max = 10;
-const hiddenNumber = min + Math.floor(Math.random() * (max - min));
-console.log(`Загадано число в диапазоне от ${min} до ${max}`);
+const argv = yargs(hideBin(process.argv))
+    .option('log', {
+        alias: 'l',
+        type: 'string',
+        description: 'имя файла с логом'
+    }).parse();
+const file = argv.log;       
 
-getNextAnswer();
+const  readerStream = fs.createReadStream(file)
+let fileData = '';
 
-function getNextAnswer() {
-    rl.question('', (answer) => {
-        answer = Number.parseInt(answer);
+readerStream.on('data', (chunk)=>{
+    fileData += chunk;
+});
 
-        if (hiddenNumber === answer) {
-            console.log(`Отгадано число ${hiddenNumber}`)
-            rl.close();
-        } else {
-            if (hiddenNumber < answer)
-                console.log('Меньше');
-            else
-                console.log('Больше');
-            getNextAnswer();
-        }
-    });
-}
+readerStream.on('end', ()=>{
+    //разделение по строкам
+    const rows = fileData.split('\n');
+    //удаление пустой строки
+    if (rows.length > 0 && !rows[rows.length - 1]) rows.pop();
+
+    //количество выигрышей
+    let guessedCount = rows.reduce((acc, cur)=>{
+        const rowData = cur.split(',');
+        if (rowData[1]==='true') acc++;
+        return acc;
+    }, 0)
+
+    console.log(`общее количество партий ${rows.length}`);
+    console.log(`количество выигранных партий ${guessedCount}`);
+    console.log(`количество проигранных партий ${rows.length - guessedCount}`);
+    console.log(`процентное соотношение выигранных партий ${guessedCount/rows.length}`);
+
+})
