@@ -5,8 +5,9 @@ const error404 = require('./middleware/err-404');
 
 const app = express();
 app.use(express.json());
+app.set('view engine', 'ejs');
 
-app.use('/api/books', booksRouter);
+app.use('/', booksRouter);
 app.use('/api/user', userRouter);
 app.use(error404);
 

@@ -17,8 +17,8 @@ class Book {
 
 const stor = {
     books: [
-        new Book(),
-        new Book(),
+        new Book('Война и мир', 'о войне и мире', 'Толстой', 'избранное', 'обложка'),
+        new Book('Горе от ума'),
     ],
 };
 

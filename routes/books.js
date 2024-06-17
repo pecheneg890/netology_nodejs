@@ -7,23 +7,17 @@ const path = require('node:path');
 
 router.get('/', (req, res) => {
     const { books } = stor;
-    res.json(books);
+    res.render('books/index', { title: 'Список книг', books });
 });
 
-router.get('/:id', (req, res) => {
-    const { books } = stor;
-    const { id } = req.params;
-    const idx = books.findIndex(el => el.id === id);
-
-    if (idx !== -1) {
-        res.json(books[idx]);
-    } else {
-        res.status(404);
-        res.json('Code: 404');
-    }
+router.get('/create', (req, res) => {
+    res.render('books/create', {
+        title: 'Добавление книги',
+        book: new Book()
+    });
 });
 
-router.post('/', multer.single('book'),
+router.post('/create', multer.single('book'),
     (req, res) => {
         const { books } = stor;
 
@@ -31,23 +25,41 @@ router.post('/', multer.single('book'),
             description,
             authors,
             favorite,
-            fileCover,
-            fileName } = JSON.parse(req.body.info);
+            fileCover } = req.body;
+
+        let originalname = "";
+        if (req.file?.originalname) {
+            originalname = Buffer.from(req.file?.originalname, 'latin1').toString('utf8');
+        }
+        const filename = req.file?.filename || "";
 
         const newBook = new Book(title, description,
             authors,
             favorite,
             fileCover,
-            fileName,
-            req.file.filename);
+            originalname,
+            filename);
+
         books.push(newBook);
 
-        res.status(201);
-        res.json(newBook);
+        res.redirect('.');
     });
 
-router.put('/:id', (req, res) => {
+router.get('/update/:id', (req, res) => {
+    const { id } = req.params;
     const { books } = stor;
+    const idx = books.findIndex(el => el.id === id);
+    if (idx !== -1) {
+        res.render('books/update', { title: 'Редактирование информации о книге', book: books[idx] });
+    } else {
+        res.status(404);
+        res.json('Code: 404');
+    }
+});
+
+router.post('/update/:id', multer.none(), (req, res) => {
+    const { books } = stor;
+
     const { title,
         description,
         authors,
@@ -67,21 +79,38 @@ router.put('/:id', (req, res) => {
             fileCover,
             fileName
         };
-        res.json(books[idx]);
+        res.redirect('..');
     } else {
         res.status(404);
         res.json('Code: 404');
     }
 });
 
-router.delete('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
+    const { books } = stor;
+    const { id } = req.params;
+    const idx = books.findIndex(el => el.id === id);
+
+    if (idx !== -1) {
+        res.render('books/view', {
+            title: 'Информация о книге',
+            book: books[idx]
+        });
+    } else {
+        res.status(404);
+        res.json('Code: 404');
+    }
+});
+
+
+router.post('/delete/:id', (req, res) => {
     const { books } = stor;
     const { id } = req.params;
     const idx = books.findIndex(el => el.id === id);
 
     if (idx !== -1) {
         books.splice(idx, 1);
-        res.json("ok");
+        res.redirect("..");
     } else {
         res.status(404);
         res.json('Code: 404');

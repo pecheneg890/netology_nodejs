@@ -1,0 +1,61 @@
+<form method="POST" class="mt-5" enctype='multipart/form-data'>
+    <div class="form-group">
+        <label for="inputTitle">Заголовок</label>
+        <input type="text"
+               value="<%= book.title %>"
+               name="title"
+               class="form-control"
+               id="inputTitle">
+    </div>
+
+    <div class="form-group">
+        <label for="inputDesc">Описание</label>
+        <textarea
+                rows="3"
+                name="description"
+                class="form-control"
+                id="inputDesc"
+        ><%= book.description %></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="inputAuth">Авторы</label>
+        <textarea
+                rows="3"
+                name="authors"
+                class="form-control"
+                id="inputAuth"
+        ><%= book.authors %></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="inputFav">Избранное</label>
+        <textarea
+                rows="3"
+                name="favorite"
+                class="form-control"
+                id="inputFav"
+        ><%= book.favorite %></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="inputCover">Обложка</label>
+        <input type="text"
+               value="<%= book.fileCover %>"
+               name="fileCover"
+               class="form-control"
+               id="inputCover">
+    </div>
+    
+    <% if (create){ %>
+        <div class="form-group">
+            <label for="book">Файл с книгой</label>
+            <br>
+            <input type="file" id="book" name="book" />
+        </div>
+    <% } %>
+
+    <div class="form-group text-right ">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+</form>
