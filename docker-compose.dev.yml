@@ -1,6 +1,6 @@
 services:
   books:
-    image: node:alpine3.19
+    image: node:22-alpine
     working_dir: /app
     volumes: 
       - ./book:/app
@@ -10,7 +10,7 @@ services:
     environment:
       - COUNTER_URL=http://counter:3000
   counter:
-    image: node:alpine3.19
+    image: node:22-alpine
     working_dir: /app
     volumes: 
       - ./counter:/app
