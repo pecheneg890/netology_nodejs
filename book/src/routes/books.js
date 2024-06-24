@@ -4,6 +4,8 @@ const { stor, Book } = require('../storage');
 const router = express.Router();
 const { multer, BOOK_FOLDER } = require('../middleware/file');
 const path = require('node:path');
+const axios = require('axios');
+const COUNTER_URL = process.env.COUNTER_URL;
 
 router.get('/', (req, res) => {
     const { books } = stor;
@@ -86,20 +88,38 @@ router.post('/update/:id', multer.none(), (req, res) => {
     }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const { books } = stor;
     const { id } = req.params;
     const idx = books.findIndex(el => el.id === id);
 
     if (idx !== -1) {
+        //увеличение количества просмотров
+        try {
+            const counterData = await axios.post(`${COUNTER_URL}/counter/${id}/incr`);
+        } catch (err) {
+        }
+
+        //информация о просмотрах
+        let counter = 0;
+        try {
+            const counterData = await axios.get(`${COUNTER_URL}/counter/${id}`);
+            if (counterData.status = 200) { counter = counterData.data.incr; }
+        } catch (err) {
+            console.log(err);
+        }
+
         res.render('books/view', {
             title: 'Информация о книге',
-            book: books[idx]
+            book: books[idx],
+            counter: counter
         });
     } else {
         res.status(404);
         res.json('Code: 404');
     }
+
+
 });
 
 

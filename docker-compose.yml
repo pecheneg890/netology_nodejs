@@ -1,0 +1,20 @@
+services:
+  books:
+    build: ./book
+    volumes: 
+      - ./book/book_storage:/app/book_storage
+    ports:
+      - 8080:3000
+    environment:
+      - COUNTER_URL=http://counter:3000
+  counter:
+    build: ./counter
+    environment:
+      - REDIS_URL=redis://redis
+#    ports:
+#      - 8081:3000  
+  redis:
+    image: redis:7.2.5
+    volumes:
+      - ./data:/data
+    

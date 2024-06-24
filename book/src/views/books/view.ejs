@@ -54,7 +54,18 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <a href="<%= book.id %>/download"><%= book.fileName %></a>
+                        <h5 class="card-title">Количество просмотров</h5>
+                        <p class="card-text">
+                            <%= counter %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <a href="<%= book.id %>/download">
+                            <%= book.fileName %>
+                        </a>
                     </div>
                 </div>
 

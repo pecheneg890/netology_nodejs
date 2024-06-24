@@ -5,6 +5,7 @@ const error404 = require('./middleware/err-404');
 
 const app = express();
 app.use(express.json());
+app.set('views', __dirname+'/views');
 app.set('view engine', 'ejs');
 
 app.use('/', booksRouter);
@@ -12,4 +13,4 @@ app.use('/api/user', userRouter);
 app.use(error404);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT);
+app.listen(PORT, ()=>{ console.log(`Сервер запущен на порту ${PORT}`)});

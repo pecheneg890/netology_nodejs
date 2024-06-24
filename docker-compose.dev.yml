@@ -1,0 +1,26 @@
+services:
+  books:
+    image: node:alpine3.19
+    working_dir: /app
+    volumes: 
+      - ./book:/app
+    command: npm run dev
+    ports:
+      - 8081:3000
+    environment:
+      - COUNTER_URL=http://counter:3000
+  counter:
+    image: node:alpine3.19
+    working_dir: /app
+    volumes: 
+      - ./counter:/app
+    command: npm run dev
+    ports:
+      - 8080:3000
+    environment:
+      - REDIS_URL=redis://redis
+  redis:
+    image: redis:7.2.5
+    volumes:
+      - ./data:/data
+    
