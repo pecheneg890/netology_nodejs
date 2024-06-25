@@ -1,4 +1,4 @@
-## запрос(ы) для вставки данных минимум о двух книгах в коллекцию books
+## вставка
 ```
 db.books.insertOne({
     title: "Война и мир",
@@ -17,7 +17,7 @@ db.books.insertMany([{
 }])
 
 ```
-## запрос для поиска полей документов коллекции books по полю title
+## выборка
 ```
 db.books.find({title: "Мертвые души"}) 
 ```
@@ -33,7 +33,28 @@ db.books.find({title: "Мертвые души"})
 ]
 ```
 
-## запрос для редактирования полей: description и authors коллекции books по _id записи
+```
+db.books.find({$or: [{title: {$eq: "Мертвые души"}}, {authors: {$eq: "Пушкин"}}]}) 
+```
+Результат:
+```
+[
+  {
+    _id: ObjectId('667a7aaaf4dd61a9d39f7f61'),
+    title: 'Евгений Онегин',
+    description: 'О скуке',
+    authors: 'Пушкин'
+  },
+  {
+    _id: ObjectId('667a7aaaf4dd61a9d39f7f62'),
+    title: 'Мертвые души',
+    description: 'О нравах',
+    authors: 'Гоголь'
+  }
+]
+```
+
+## update
 ```
 db.books.updateOne({
     _id: ObjectId("667a7aaaf4dd61a9d39f7f61")
@@ -55,4 +76,16 @@ db.books.updateOne({
   upsertedCount: 0
 }
 ```
-
+```
+db.books.updateOne({authors: {$eq: "Александр Пушкин"}},  {$set:{description: "О любви", authors: "Пушкин" }}) 
+```
+Результат
+```
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+```
